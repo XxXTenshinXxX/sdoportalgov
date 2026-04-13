@@ -1,0 +1,26 @@
+name: Deploy to InfinityFree
+
+on:
+  push:
+    branches:
+      - main  # Trigger when you push to the main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # You can also use other environments
+
+    steps:
+      # Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Set up FTP deployment using the appleboy FTP action
+      - name: Deploy to InfinityFree via FTP
+        uses: appleboy/ftp-action@v1
+        with:
+          host: ftpupload.net
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: 21
+          local_dir: ./  # Directory to upload (use '.' for entire project)
+          remote_dir: /htdocs  # The directory on InfinityFree to upload files
