@@ -7,7 +7,7 @@ header('Content-Type: application/json');
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $leave_id = $_POST['leave_id'] ?? '';
     $employee_id = $_POST['employee_id'] ?? '';
-    
+
     // Employee details
     $surname = strtoupper(trim($_POST['surname'] ?? ''));
     $first_name = strtoupper(trim($_POST['first_name'] ?? ''));
@@ -57,18 +57,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             status = IF(? = '', status, ?)
             WHERE id=?";
         $emp_stmt = $conn->prepare($emp_sql);
-        $emp_stmt->bind_param("ssssssssssssssssi", 
-            $surname, $surname, 
-            $first_name, $first_name, 
-            $middle_initial, $middle_initial, 
-            $dob, $dob, 
-            $pob, $pob, 
-            $employee_no, $employee_no, 
-            $school_level, $school_level,
-            $status, $status,
-            $employee_id);
+        $emp_stmt->bind_param(
+            "ssssssssssssssssi",
+            $surname,
+            $surname,
+            $first_name,
+            $first_name,
+            $middle_initial,
+            $middle_initial,
+            $dob,
+            $dob,
+            $pob,
+            $pob,
+            $employee_no,
+            $employee_no,
+            $school_level,
+            $school_level,
+            $status,
+            $status,
+            $employee_id
+        );
         $emp_stmt->execute();
-        
+
         // Only update Leave record if leave particulars were submitted
         if (!empty($_POST['period_from'])) {
             $leave_sql = "UPDATE leaves SET period_from=?, period_to=?, reason=?, station=?, pay_status=?, total_days=?, remarks=? WHERE id=? AND employee_id=?";
@@ -85,8 +95,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Close connections
-    if (isset($emp_stmt)) $emp_stmt->close();
-    if (isset($leave_stmt)) $leave_stmt->close();
+    if (isset($emp_stmt))
+        $emp_stmt->close();
+    if (isset($leave_stmt))
+        $leave_stmt->close();
     $conn->close();
 } else {
     echo json_encode(["status" => "error", "message" => "Invalid request method."]);

@@ -3,7 +3,8 @@ include 'c:/xampp/htdocs/sdo-portal/leave-monitoring/comfig/database.php';
 $tables = [];
 $res = $conn->query('SHOW TABLES');
 if ($res) {
-    while($row = $res->fetch_array()) $tables[] = $row[0];
+    while ($row = $res->fetch_array())
+        $tables[] = $row[0];
     echo "Tables: " . implode(', ', $tables) . "\n";
 } else {
     echo "Query failed: " . $conn->error . "\n";

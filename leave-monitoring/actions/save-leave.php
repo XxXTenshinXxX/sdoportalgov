@@ -21,7 +21,8 @@ $period_to = $_POST['period_to'] ?? '';
 $reason = trim($_POST['reason'] ?? '');
 $other_reason = trim($_POST['other_reason'] ?? '');
 $pay_status = $_POST['pay_status'] ?? 'N/A';
-if (empty($pay_status)) $pay_status = 'N/A';
+if (empty($pay_status))
+    $pay_status = 'N/A';
 $total_days = intval($_POST['total_days'] ?? 0);
 $remarks = trim($_POST['remarks'] ?? '');
 $school_level = $_POST['school_level'] ?? 'ES';
@@ -71,7 +72,7 @@ if ($employee_id > 0) {
     if ($check_result->num_rows > 0) {
         $row = $check_result->fetch_assoc();
         $employee_id = $row['id'];
-        
+
         if (!empty($employee_no)) {
             $upd_emp = $conn->prepare("UPDATE employees SET employee_no = ? WHERE id = ?");
             $upd_emp->bind_param("si", $employee_no, $employee_id);
@@ -83,7 +84,7 @@ if ($employee_id > 0) {
         $emp_sql = "INSERT INTO employees (surname, first_name, middle_initial, date_of_birth, place_of_birth, employee_no, school_level, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $emp_stmt = $conn->prepare($emp_sql);
         $emp_stmt->bind_param("ssssssss", $surname, $first_name, $middle_initial, $db_dob, $db_pob, $employee_no, $school_level, $status);
-        
+
         if (!$emp_stmt->execute()) {
             echo json_encode(['status' => 'error', 'message' => 'Failed to save employee: ' . $emp_stmt->error]);
             exit;
@@ -99,7 +100,7 @@ if ($is_leave_valid) {
     $leave_sql = "INSERT INTO leaves (employee_id, period_from, period_to, reason, station, pay_status, total_days, remarks) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $leave_stmt = $conn->prepare($leave_sql);
     $leave_stmt->bind_param("isssssis", $employee_id, $period_from, $period_to, $reason, $station, $pay_status, $total_days, $remarks);
-    
+
     if ($leave_stmt->execute()) {
         echo json_encode(['status' => 'success', 'message' => 'Leave record saved successfully!', 'employee_id' => $employee_id]);
     } else {
