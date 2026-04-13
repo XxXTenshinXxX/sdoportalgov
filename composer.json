@@ -1,0 +1,13 @@
+{
+    "name": "gsis/remittance",
+    "description": "GSIS Remittance PDF Parsing",
+    "authors": [
+        {
+            "name": "Antigravity"
+        }
+    ],
+    "require": {
+        "smalot/pdfparser": "^2.12",
+        "mpdf/mpdf": "^8.3"
+    }
+}
