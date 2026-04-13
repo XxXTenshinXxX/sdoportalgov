@@ -18,9 +18,9 @@ jobs:
       - name: Deploy to InfinityFree via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ vars.FTP_HOST }}  # FTP Host (variable)
+          server: ftpupload.net
           username: ${{ secrets.FTP_USERNAME }}  # FTP Username (secret)
           password: ${{ secrets.FTP_PASSWORD }}  # FTP Password (secret)
           port: 21  # Default FTP port
           local-dir: ./  # Local directory to upload
-          server-dir: ${{ vars.REMOTE_DIR }}  # Remote directory (variable, e.g., /htdocs/)
+          server-dir: /htdocs/
